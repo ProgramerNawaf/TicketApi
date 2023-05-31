@@ -2,6 +2,7 @@ package com.example.ticketapi.Controller;
 
 import com.example.ticketapi.Model.MyUser;
 import com.example.ticketapi.Repository.MyUserRepository;
+import com.example.ticketapi.Repository.TicketRepository;
 import com.example.ticketapi.Service.MyUserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

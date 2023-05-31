@@ -16,8 +16,17 @@ public class TicketController {
     private final TicketService ticketService;
 
     @PostMapping("/buy/{userId}/{eventName}/{ticketNum}")
-    public ResponseEntity buyTickets(@PathVariable Integer userId, @PathVariable String eventName, @PathVariable Integer ticketNum){
+    public ResponseEntity buyTickets(@PathVariable Integer userId, @PathVariable String eventName, @PathVariable Integer ticketNum) {
         ticketService.buyTickets(userId, eventName, ticketNum);
         return ResponseEntity.status(200).body("Transaction done");
     }
+
+    @GetMapping("/check-ticket/{idTicket}/{nameEvent}")
+    public ResponseEntity checkValidTicket(@PathVariable Integer idTicket, @PathVariable String nameEvent) {
+        ticketService.checkValidTicket(idTicket, nameEvent);
+        return ResponseEntity.status(200).body("Valid ticket");
+
+    }
+
+
 }
