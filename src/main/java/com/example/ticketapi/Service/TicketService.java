@@ -14,9 +14,13 @@ import lombok.RequiredArgsConstructor;
 import org.apache.catalina.User;
 import org.springframework.stereotype.Service;
 
+
+import java.util.Date;
+import java.util.List;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
+
 
 
 @Service
@@ -65,6 +69,31 @@ public class TicketService {
         }
 
     }
+
+
+    public void cancelTicket(Integer userId , String eventName , Integer ticketNumber){
+        Date date = new Date();
+        MyUser user = myUserRepository.findMyUserById(userId);
+        if( user == null)
+            throw new ApiException("ticket id invalid");
+        Event event = eventRepository.findEventByName(eventName);
+        if(event.getDate().before(date))
+            throw new ApiException("Refund expired!");
+
+        Company company = companyRepository.findCompanyById(event.getCompany().getId());
+        List<Ticket> tickets = ticketRepository.findTicketsByUser(user);
+        Double price = 0.0;
+        for(int i = 0 ; i<tickets.size(); i++) {
+            price = price + tickets.get(i).getEvent().getPrice();
+            ticketRepository.delete(tickets.get(i));
+        }
+
+        company.setRevenue(company.getRevenue() - price);
+        user.setBalance(user.getBalance() + price);
+        event.setCapacity(event.getCapacity()+ticketNumber);
+        eventRepository.save(event);
+        myUserRepository.save(user);
+        companyRepository.save(company);
 
     public void checkValidTicket(Integer idTicket, String nameEvent) {
         Date date = new Date();
