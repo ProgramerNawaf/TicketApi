@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -25,30 +26,35 @@ public class EventService {
     private final TicketRepository ticketRepository;
     private final CompanyRepository companyRepository;
 
-    public List<Event> getEvents(){
+    public List<Event> getEvents() {
         return eventRepository.findAll();
     }
+
     //user id to check if he is admin add otherways no
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
 
-    public void addEvent(Event e){
-        ZonedDateTime eventDate = null;
-        System.out.println(eventDate);
-        eventDate = ZonedDateTime.parse(e.getEventDate().toString(),formatter);
-        System.out.println(eventDate);
+    public void addEvent(Event e) {
+        System.out.println(e.getDate());
+
+
+//        e.getEventDate();
+//        ZonedDateTime eventDate = null;
+//        System.out.println(eventDate);
+//        eventDate = ZonedDateTime.parse(e.getEventDate().toString(), formatter);
+//        System.out.println(eventDate);
 //        if(companyRepository.findCompanyById(companyId) == null)
 //           throw new ApiException("company with this Id dosent exist!");
         eventRepository.save(e);
     }
 
-    public void updateEvent(Event e , Integer event_Id ,Integer companyId){
-        if(companyRepository.findCompanyById(companyId) == null)
+    public void updateEvent(Event e, Integer event_Id, Integer companyId) {
+        if (companyRepository.findCompanyById(companyId) == null)
             throw new ApiException("company with this Id dosent exist!");
 
-        Event oldEvent =eventRepository.findEventById(event_Id);
-        if(oldEvent == null)
+        Event oldEvent = eventRepository.findEventById(event_Id);
+        if (oldEvent == null)
             return;
-        oldEvent.setEventDate(e.getEventDate());
+//        oldEvent.setEventDate(e.getEventDate());
         oldEvent.setName(e.getName());
         oldEvent.setCategory(e.getCategory());
         oldEvent.setCapacity(e.getCapacity());
@@ -57,21 +63,21 @@ public class EventService {
         eventRepository.save(oldEvent);
     }
 
-    public void deleteEvent(Integer event_id , Integer company_id){
-        if(companyRepository.findCompanyById(company_id) == null)
+    public void deleteEvent(Integer event_id, Integer company_id) {
+        if (companyRepository.findCompanyById(company_id) == null)
             throw new ApiException("no company with this Id!");
-        Event event =eventRepository.findEventById(event_id);
+        Event event = eventRepository.findEventById(event_id);
         //we will use these to deduct from company and refund money to customer
         Company company = null;
         MyUser user = null;
-        if(event == null)
+        if (event == null)
             return;
         //when you delete an event you need to delete all tickets and refund all the customers for ticket price
         List<Ticket> tickets = eventRepository.findEventByTicketsContains(event);
-        for(int i = 0 ; i < tickets.size() ; i++) {
+        for (int i = 0; i < tickets.size(); i++) {
             //deduct the money from company
             company = eventRepository.findEventById(event_id).getCompany();
-            company.setRevenue(company.getRevenue()-tickets.get(i).getEvent().getPrice());
+            company.setRevenue(company.getRevenue() - tickets.get(i).getEvent().getPrice());
             //refund the money to customers
             user = myUserRepository.findMyUsersByTicketsContains(tickets.get(i));
             user.setBalance(user.getBalance() + tickets.get(i).getEvent().getPrice());
