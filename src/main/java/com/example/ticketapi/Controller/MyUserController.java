@@ -42,6 +42,13 @@ public class MyUserController {
         return ResponseEntity.status(200).body("done delete");
     }
 
+    @GetMapping("/get-by-role/{role}")
+    public ResponseEntity getOnlyCustomers(@PathVariable String role) {
+        List<MyUser> myUsers = myUserService.getByRole(role);
+        return ResponseEntity.status(200).body(myUsers);
+
+    }
+
 
 }
 
