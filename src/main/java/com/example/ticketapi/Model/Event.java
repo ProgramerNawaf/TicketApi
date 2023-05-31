@@ -2,6 +2,7 @@ package com.example.ticketapi.Model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,6 +10,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.Set;
 
@@ -36,9 +38,8 @@ public class Event {
     @Column(columnDefinition ="decimal not null " )
     @NotNull(message = "price cant be null!")
     private Double price;
-    @Column(columnDefinition ="int not null" )
-    @NotNull(message = "eventDate cant be null!")
-    private LocalDateTime eventDate;
+    @FutureOrPresent(message = "wrong date")
+    private ZonedDateTime eventDate;
 
     @OneToMany(mappedBy = "event",cascade = CascadeType.DETACH )
     @PrimaryKeyJoinColumn
