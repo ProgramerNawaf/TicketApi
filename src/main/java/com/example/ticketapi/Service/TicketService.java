@@ -94,6 +94,7 @@ public class TicketService {
         eventRepository.save(event);
         myUserRepository.save(user);
         companyRepository.save(company);
+    }
 
     public void checkValidTicket(Integer idTicket, String nameEvent) {
         Date date = new Date();
