@@ -2,6 +2,7 @@ package com.example.ticketapi.Controller;
 
 
 import com.example.ticketapi.ApiException.ApiException;
+import com.example.ticketapi.Model.Company;
 import com.example.ticketapi.Model.Event;
 import com.example.ticketapi.Service.CompanyService;
 import com.example.ticketapi.Service.EventService;
