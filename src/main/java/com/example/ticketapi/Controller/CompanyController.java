@@ -49,6 +49,11 @@ public class CompanyController {
        Set<Event> events = companyService.getCompanyEvents(companyName);
         return ResponseEntity.status(200).body(events);
     }
+    @GetMapping("/get-company/{id}")
+    public ResponseEntity getCompanyNames(@PathVariable Integer id){
+        List<String> events = companyService.getCompanyNames(id);
+        return ResponseEntity.status(200).body(events);
+    }
 
 
 }
