@@ -33,19 +33,18 @@ public class EventService {
     //user id to check if he is admin add otherways no
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
 
-    public void addEvent(Event e) {
-        System.out.println(e.getDate());
-
-
-//        e.getEventDate();
-//        ZonedDateTime eventDate = null;
-//        System.out.println(eventDate);
-//        eventDate = ZonedDateTime.parse(e.getEventDate().toString(), formatter);
-//        System.out.println(eventDate);
-//        if(companyRepository.findCompanyById(companyId) == null)
-//           throw new ApiException("company with this Id dosent exist!");
-        eventRepository.save(e);
+    public void addEvent(Event event , Integer companyId) {
+        System.out.println(event.getDate());
+        Company company =companyRepository.findCompanyById(companyId);
+        if (company == null)
+            throw new ApiException("company with this Id dosent exist!");
+//        company.getEvents().add(event);
+        event.setCompany(company);
+        eventRepository.save(event);
+        companyRepository.save(company);
     }
+
+
 
     public void updateEvent(Event e, Integer event_Id, Integer companyId) {
         if (companyRepository.findCompanyById(companyId) == null)
@@ -68,19 +67,23 @@ public class EventService {
             throw new ApiException("no company with this Id!");
         Event event = eventRepository.findEventById(event_id);
         //we will use these to deduct from company and refund money to customer
-        Company company = null;
+
         MyUser user = null;
         if (event == null)
-            return;
+            throw new ApiException("Event Not Found");
         //when you delete an event you need to delete all tickets and refund all the customers for ticket price
-        List<Ticket> tickets = eventRepository.findEventByTicketsContains(event);
+        Company company = companyRepository.findCompanyById(company_id);
+        List<Ticket> tickets = ticketRepository.findTicketsByEvent(event);
         for (int i = 0; i < tickets.size(); i++) {
             //deduct the money from company
-            company = eventRepository.findEventById(event_id).getCompany();
+
             company.setRevenue(company.getRevenue() - tickets.get(i).getEvent().getPrice());
             //refund the money to customers
             user = myUserRepository.findMyUsersByTicketsContains(tickets.get(i));
             user.setBalance(user.getBalance() + tickets.get(i).getEvent().getPrice());
+            tickets.get(i).setUser(null);
+            tickets.get(i).setEvent(null);
+            ticketRepository.delete(tickets.get(i));
         }
         eventRepository.delete(event);
     }
