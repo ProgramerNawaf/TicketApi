@@ -22,11 +22,11 @@ public class EventController {
             throw new ApiException("no events available");
         return ResponseEntity.status(200).body(eventService.getEvents());
     }
-    @PostMapping("/add")
-    public ResponseEntity addEvent(@Valid @RequestBody Event event ){
+    @PostMapping("/add/{companyId}")
+    public ResponseEntity addEvent(@Valid @RequestBody Event event , @PathVariable  Integer companyId){
         System.out.println("hello");
         //@PathVariable Integer companyId
-        eventService.addEvent(event);
+        eventService.addEvent(event,companyId);
         return ResponseEntity.status(200).body("Event added");
     }
 
