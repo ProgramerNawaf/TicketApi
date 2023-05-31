@@ -61,7 +61,7 @@ public class EventService {
         oldEvent.setPrice(e.getPrice());
         eventRepository.save(oldEvent);
     }
-
+//    Hello
     public void deleteEvent(Integer event_id, Integer company_id) {
         if (companyRepository.findCompanyById(company_id) == null)
             throw new ApiException("no company with this Id!");
