@@ -38,8 +38,9 @@ public class EventService {
         Company company =companyRepository.findCompanyById(companyId);
         if (company == null)
             throw new ApiException("company with this Id dosent exist!");
-        company.getEvents().add(event);
+        event.setCompany(company);
         eventRepository.save(event);
+        companyRepository.save(company);
     }
     //        e.getEventDate();
 //        ZonedDateTime eventDate = null;
