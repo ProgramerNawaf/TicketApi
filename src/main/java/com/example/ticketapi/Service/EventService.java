@@ -38,6 +38,7 @@ public class EventService {
         Company company =companyRepository.findCompanyById(companyId);
         if (company == null)
             throw new ApiException("company with this Id dosent exist!");
+
 //        company.getEvents().add(event);
         event.setCompany(company);
         eventRepository.save(event);
@@ -46,13 +47,23 @@ public class EventService {
 
 
 
+    }
+    //        e.getEventDate();
+//        ZonedDateTime eventDate = null;
+//        System.out.println(eventDate);
+//        eventDate = ZonedDateTime.parse(e.getEventDate().toString(), formatter);
+//        System.out.println(eventDate);
+//        if(companyRepository.findCompanyById(companyId) == null)
+//           throw new ApiException("company with this Id dosent exist!");
+
+
     public void updateEvent(Event e, Integer event_Id, Integer companyId) {
         if (companyRepository.findCompanyById(companyId) == null)
             throw new ApiException("company with this Id dosent exist!");
 
         Event oldEvent = eventRepository.findEventById(event_Id);
         if (oldEvent == null)
-            return;
+            throw new ApiException("event with this Id dosent exist!");
 //        oldEvent.setEventDate(e.getEventDate());
         oldEvent.setName(e.getName());
         oldEvent.setCategory(e.getCategory());
