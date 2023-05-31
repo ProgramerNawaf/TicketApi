@@ -2,6 +2,7 @@ package com.example.ticketapi.Service;
 
 import com.example.ticketapi.ApiException.ApiException;
 import com.example.ticketapi.Model.MyUser;
+import com.example.ticketapi.Model.Ticket;
 import com.example.ticketapi.Repository.MyUserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
