@@ -39,7 +39,7 @@ public class Event {
     @Column(columnDefinition = "decimal not null ")
     @NotNull(message = "price cant be null!")
     private Double price;
-    @FutureOrPresent(message = "wrong date")
+    //    @FutureOrPresent(message = "wrong date")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm")
     private Date date;
 
