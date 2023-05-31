@@ -23,5 +23,4 @@ public class ControllerAdvise {
         return ResponseEntity.status(400).body(new ApiResponse(message));
     }
 
-
 }

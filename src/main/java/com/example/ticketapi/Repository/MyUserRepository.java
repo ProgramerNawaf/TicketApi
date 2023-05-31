@@ -8,8 +8,12 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface MyUserRepository extends JpaRepository<MyUser,Integer> {
+public interface MyUserRepository extends JpaRepository<MyUser, Integer> {
 
     MyUser findMyUserById(Integer id);
+
     MyUser findMyUsersByTicketsContains(Ticket t);
+
+    List<MyUser> findMyUsersByRoleContains(String role);
+    
 }

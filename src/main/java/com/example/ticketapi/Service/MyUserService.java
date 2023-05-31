@@ -26,6 +26,9 @@ public class MyUserService {
 
     public String addMyUser(MyUser myUser) {
         String message;
+        if (myUser.getBalance() < 0) {
+            throw new ApiException("balance must be 0 or more");
+        }
         if (myUser.getRole().equalsIgnoreCase("customer")) {
             message = "customer add";
         } else {
@@ -46,7 +49,7 @@ public class MyUserService {
         oldMyUser.setGender(myUser.getGender());
         oldMyUser.setEmail(myUser.getEmail());
         if (oldMyUser.getRole().equalsIgnoreCase("customer")) {
-            throw new ApiException("user can't change role");
+            throw new ApiException("customer can't change role");
         }
         oldMyUser.setRole(myUser.getRole());
         myUserRepository.save(oldMyUser);
@@ -62,4 +65,13 @@ public class MyUserService {
 
 
     }
+
+    public List<MyUser> getByRole(String role) {
+        List<MyUser> myUsers = myUserRepository.findMyUsersByRoleContains(role);
+        if (myUsers.isEmpty()) {
+            throw new ApiException("do not have any " + role);
+        }
+        return myUsers;
+    }
 }
+
