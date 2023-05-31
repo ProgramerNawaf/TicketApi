@@ -18,6 +18,7 @@ public class Company {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+
     @Column(columnDefinition ="varchar(25) not null" )
     @NotNull(message = "name cant be null!")
     private String name;
