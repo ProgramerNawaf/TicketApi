@@ -19,7 +19,6 @@ import java.util.Set;
 public class CompanyService {
 
     private final CompanyRepository companyRepository;
-    private final EventRepository eventRepository;
     private final MyUserRepository myUserRepository;
     public List<Company> getCompanies(){
         return companyRepository.findAll();

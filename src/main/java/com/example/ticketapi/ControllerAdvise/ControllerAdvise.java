@@ -4,6 +4,7 @@ package com.example.ticketapi.ControllerAdvise;
 import com.example.ticketapi.ApiException.ApiException;
 import com.example.ticketapi.ApiResponse.ApiResponse;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -28,7 +29,17 @@ public class ControllerAdvise {
         String message = e.getMessage();
         return ResponseEntity.status(400).body(new ApiResponse(message));
     }
+    @ExceptionHandler(NullPointerException.class)
+    public ResponseEntity<ApiResponse> NullPointerException (NullPointerException e){
+        String message = e.getMessage();
+        return ResponseEntity.status(400).body(new ApiResponse(message));
+    }
 
+    @ExceptionHandler(IncorrectResultSizeDataAccessException.class)
+    public ResponseEntity<ApiResponse> IncorrectResultSizeDataAccessException (IncorrectResultSizeDataAccessException e){
+        String message = e.getMessage();
+        return ResponseEntity.status(400).body(new ApiResponse(message));
+    }
 
 
 }

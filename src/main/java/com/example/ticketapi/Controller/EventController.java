@@ -19,14 +19,10 @@ public class EventController {
     private final EventService eventService;
     @GetMapping("/get")
     public ResponseEntity getEvents(){
-        if(eventService.getEvents().isEmpty())
-            throw new ApiException("no events available");
         return ResponseEntity.status(200).body(eventService.getEvents());
     }
     @PostMapping("/add/{companyId}")
     public ResponseEntity addEvent(@Valid @RequestBody Event event , @PathVariable  Integer companyId){
-        System.out.println("hello");
-        //@PathVariable Integer companyId
         eventService.addEvent(event,companyId);
         return ResponseEntity.status(200).body("Event added");
     }

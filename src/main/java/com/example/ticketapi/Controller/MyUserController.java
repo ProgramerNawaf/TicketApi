@@ -50,6 +50,9 @@ public class MyUserController {
 
     }
 
+    // get MyUser by id
+    // get user tickets
+
 
 }
 

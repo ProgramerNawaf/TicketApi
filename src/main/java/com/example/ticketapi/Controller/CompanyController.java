@@ -39,7 +39,7 @@ public class CompanyController {
     }
 
     @DeleteMapping ("/delete/{companyId}/{userId}")
-    public ResponseEntity updateCompany(@PathVariable Integer companyId , @PathVariable Integer userId){
+    public ResponseEntity deleteCompany(@PathVariable Integer companyId , @PathVariable Integer userId){
         companyService.deleteCompany(companyId, userId);
         return ResponseEntity.status(200).body("Company Updated");
     }
@@ -49,9 +49,9 @@ public class CompanyController {
        Set<Event> events = companyService.getCompanyEvents(companyName);
         return ResponseEntity.status(200).body(events);
     }
-    @GetMapping("/get-company/{id}")
-    public ResponseEntity getCompanyNames(@PathVariable Integer id){
-        List<String> events = companyService.getCompanyNames(id);
+    @GetMapping("/get-company/{adminId}")
+    public ResponseEntity getCompanyNames(@PathVariable Integer adminId){
+        List<String> events = companyService.getCompanyNames(adminId);
         return ResponseEntity.status(200).body(events);
     }
 

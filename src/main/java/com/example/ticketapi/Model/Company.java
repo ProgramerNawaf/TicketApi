@@ -27,7 +27,7 @@ public class Company {
     @NotNull(message = "revenue cant be null!")
     private Double revenue;
 
-    @OneToMany(mappedBy = "company",cascade = CascadeType.DETACH )
+    @OneToMany(mappedBy = "company",cascade = CascadeType.ALL )
     @PrimaryKeyJoinColumn
     private Set<Event> events;
 }
