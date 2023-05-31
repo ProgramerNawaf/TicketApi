@@ -33,17 +33,24 @@ public class TicketService {
     private final CompanyRepository companyRepository;
 
     public void buyTickets(Integer userId, String eventName, Integer ticketsNum) {
-        Event event = eventRepository.findEventByName(eventName);
-        Company company = companyRepository.findCompanyByEventsContains(event);
-        MyUser myUser = myUserRepository.findMyUserById(userId);
-        Double price = event.getPrice() * ticketsNum;
 
-        if (company == null) {
-            throw new ApiException("Company not found");
-        }
+        Event event = eventRepository.findEventByName(eventName);
         if ((event == null)) {
             throw new ApiException("Event not Found");
         }
+
+        Company company = companyRepository.findCompanyByEventsContains(event);
+        if (company == null) {
+            throw new ApiException("Company not found");
+        }
+
+        MyUser myUser = myUserRepository.findMyUserById(userId);
+        if (myUser == null){
+            throw new ApiException("User Not Found");
+        }
+
+        Double price = event.getPrice() * ticketsNum;
+
         //check age
         if (event.getAgeLimit() > myUser.getAge()) {
             throw new ApiException("Sorry the age limit is " + event.getAgeLimit());
@@ -83,7 +90,7 @@ public class TicketService {
         Company company = companyRepository.findCompanyById(event.getCompany().getId());
         List<Ticket> tickets = ticketRepository.findTicketsByUser(user);
         Double price = 0.0;
-        for(int i = 0 ; i<tickets.size(); i++) {
+        for(int i = 0 ; i<ticketNumber; i++) {
             price = price + tickets.get(i).getEvent().getPrice();
             ticketRepository.delete(tickets.get(i));
         }
@@ -98,7 +105,6 @@ public class TicketService {
 
     public void checkValidTicket(Integer idTicket, String nameEvent) {
         Date date = new Date();
-        String message;
         Ticket ticket = ticketRepository.findTicketById(idTicket);
         Event event = eventRepository.findEventByName(nameEvent);
         if (ticket.getEvent().getDate().before(date)) {

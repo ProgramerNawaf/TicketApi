@@ -27,11 +27,10 @@ public class EventService {
     private final CompanyRepository companyRepository;
 
     public List<Event> getEvents() {
+        if(eventRepository.findAll().isEmpty())
+            throw new ApiException("no events available");
         return eventRepository.findAll();
     }
-
-    //user id to check if he is admin add otherways no
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
 
     public void addEvent(Event event, Integer companyId) {
         System.out.println(event.getDate());
@@ -39,22 +38,10 @@ public class EventService {
         if (company == null)
             throw new ApiException("company with this Id dosent exist!");
 
-//        company.getEvents().add(event);
         event.setCompany(company);
         eventRepository.save(event);
         companyRepository.save(company);
     }
-
-
-
-    //        e.getEventDate();
-//        ZonedDateTime eventDate = null;
-//        System.out.println(eventDate);
-//        eventDate = ZonedDateTime.parse(e.getEventDate().toString(), formatter);
-//        System.out.println(eventDate);
-//        if(companyRepository.findCompanyById(companyId) == null)
-//           throw new ApiException("company with this Id dosent exist!");
-
 
     public void updateEvent(Event e, Integer event_Id, Integer companyId) {
         if (companyRepository.findCompanyById(companyId) == null)
@@ -63,7 +50,7 @@ public class EventService {
         Event oldEvent = eventRepository.findEventById(event_Id);
         if (oldEvent == null)
             throw new ApiException("event with this Id dosent exist!");
-//        oldEvent.setEventDate(e.getEventDate());
+
         oldEvent.setName(e.getName());
         oldEvent.setCategory(e.getCategory());
         oldEvent.setCapacity(e.getCapacity());
@@ -72,7 +59,6 @@ public class EventService {
         eventRepository.save(oldEvent);
     }
 
-    //    Hello
     public void deleteEvent(Integer event_id, Integer company_id) {
         Date date = new Date();
         Company company = companyRepository.findCompanyById(company_id);
