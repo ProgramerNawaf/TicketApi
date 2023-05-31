@@ -14,8 +14,13 @@ import lombok.RequiredArgsConstructor;
 import org.apache.catalina.User;
 import org.springframework.stereotype.Service;
 
+
 import java.util.Date;
 import java.util.List;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
+
 
 
 @Service
@@ -27,28 +32,28 @@ public class TicketService {
     private final EventRepository eventRepository;
     private final CompanyRepository companyRepository;
 
-    public void buyTickets(Integer userId, String eventName, Integer ticketsNum){
+    public void buyTickets(Integer userId, String eventName, Integer ticketsNum) {
         Event event = eventRepository.findEventByName(eventName);
         Company company = companyRepository.findCompanyByEventsContains(event);
         MyUser myUser = myUserRepository.findMyUserById(userId);
-        Double price = event.getPrice()*ticketsNum;
+        Double price = event.getPrice() * ticketsNum;
 
-        if (company == null){
+        if (company == null) {
             throw new ApiException("Company not found");
         }
-        if ((event == null)){
+        if ((event == null)) {
             throw new ApiException("Event not Found");
         }
         //check age
-        if (event.getAgeLimit() > myUser.getAge()){
+        if (event.getAgeLimit() > myUser.getAge()) {
             throw new ApiException("Sorry the age limit is " + event.getAgeLimit());
         }
         //check user balance
-        if (price > myUser.getBalance()){
+        if (price > myUser.getBalance()) {
             throw new ApiException("Balance not enough");
         }
         //check capacity
-        if (event.getCapacity() <= ticketsNum){
+        if (event.getCapacity() <= ticketsNum) {
             throw new ApiException("Sorry no more tickets");
         }
 
@@ -64,6 +69,7 @@ public class TicketService {
         }
 
     }
+
 
     public void cancelTicket(Integer userId , String eventName , Integer ticketNumber){
         Date date = new Date();
@@ -88,6 +94,18 @@ public class TicketService {
         eventRepository.save(event);
         myUserRepository.save(user);
         companyRepository.save(company);
+
+    public void checkValidTicket(Integer idTicket, String nameEvent) {
+        Date date = new Date();
+        String message;
+        Ticket ticket = ticketRepository.findTicketById(idTicket);
+        Event event = eventRepository.findEventByName(nameEvent);
+        if (ticket.getEvent().getDate().before(date)) {
+            throw new ApiException("Ticket expired");
+        }
+        if (ticket.getEvent() != event) {
+            throw new ApiException("Ticket not for this event!");
+        }
 
     }
 }

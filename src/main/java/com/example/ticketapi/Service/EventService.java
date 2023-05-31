@@ -33,9 +33,9 @@ public class EventService {
     //user id to check if he is admin add otherways no
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
 
-    public void addEvent(Event event , Integer companyId) {
+    public void addEvent(Event event, Integer companyId) {
         System.out.println(event.getDate());
-        Company company =companyRepository.findCompanyById(companyId);
+        Company company = companyRepository.findCompanyById(companyId);
         if (company == null)
             throw new ApiException("company with this Id dosent exist!");
 
@@ -44,7 +44,6 @@ public class EventService {
         eventRepository.save(event);
         companyRepository.save(company);
     }
-
 
 
 
@@ -72,7 +71,8 @@ public class EventService {
         oldEvent.setPrice(e.getPrice());
         eventRepository.save(oldEvent);
     }
-//    Hello
+
+    //    Hello
     public void deleteEvent(Integer event_id, Integer company_id) {
         Date date = new Date();
         Company company = companyRepository.findCompanyById(company_id);
