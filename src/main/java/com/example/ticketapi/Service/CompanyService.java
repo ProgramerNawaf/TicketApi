@@ -20,6 +20,8 @@ public class CompanyService {
 
     private final CompanyRepository companyRepository;
     private final MyUserRepository myUserRepository;
+    private final EventRepository eventRepository;
+    private final EventService eventService;
     public List<Company> getCompanies(){
         return companyRepository.findAll();
     }
@@ -56,6 +58,16 @@ public class CompanyService {
         if (company == null){
             throw new ApiException("Company Not Found");
         }
+        List<Event> events = eventRepository.findEventsByCompany(company);
+        if (events.isEmpty()){
+            companyRepository.delete(company);
+            return;
+        }
+
+        for (int i = 0; i < events.size(); i++) {
+            eventService.deleteEvent(events.get(i).getId(),companyId);
+        }
+
         companyRepository.delete(company);
     }
 
@@ -71,11 +83,19 @@ public class CompanyService {
         if (company == null){
             throw new ApiException("Company Not Found");
         }
-        List<String> compnayNames= null;
+        List<String> companyNames = null;
 
         for(int i = 0 ; i<company.size();i++)
-            compnayNames.add(company.get(i).getName());
-        return compnayNames;
+            companyNames.add(company.get(i).getName());
+        return companyNames;
+    }
+
+    public Company getCompanyByName(String companyName){
+        Company company = companyRepository.findCompanyByName(companyName);
+        if (company == null){
+            throw new ApiException("Company Not Found");
+        }
+        return company;
     }
 
 

@@ -2,11 +2,13 @@ package com.example.ticketapi.Service;
 
 import com.example.ticketapi.ApiException.ApiException;
 import com.example.ticketapi.Model.MyUser;
+import com.example.ticketapi.Model.Ticket;
 import com.example.ticketapi.Repository.MyUserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -72,6 +74,25 @@ public class MyUserService {
             throw new ApiException("do not have any " + role);
         }
         return myUsers;
+    }
+
+
+    // get MyUser by id
+    public MyUser getUserById(Integer userId){
+        MyUser myUser =myUserRepository.findMyUserById(userId);
+        if (myUser == null){
+            throw new ApiException("User Not Found");
+        }
+        return myUser;
+    }
+
+    // get user tickets
+    public Set<Ticket> getUserTickets(Integer userId){
+        MyUser myUser =myUserRepository.findMyUserById(userId);
+        if (myUser == null){
+            throw new ApiException("User Not Found");
+        }
+        return myUser.getTickets();
     }
 }
 

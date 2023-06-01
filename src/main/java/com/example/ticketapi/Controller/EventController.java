@@ -2,6 +2,7 @@ package com.example.ticketapi.Controller;
 
 
 import com.example.ticketapi.ApiException.ApiException;
+import com.example.ticketapi.DTO.TicketDTO;
 import com.example.ticketapi.Model.Company;
 import com.example.ticketapi.Model.Event;
 import com.example.ticketapi.Service.CompanyService;
@@ -39,6 +40,23 @@ public class EventController {
         return ResponseEntity.status(200).body("Event deleted");
     }
 
+    @GetMapping("/tickets_sold/{eventName}")
+    public ResponseEntity ticketsSold(@PathVariable("eventName") String eventName ){
+       Integer sold = eventService.ticketsSold(eventName);
+        return ResponseEntity.status(200).body(sold);
+    }
+
+    @GetMapping("/tickets-left/{eventName}")
+    public ResponseEntity ticketsLeft(@PathVariable("eventName") String eventName ){
+        Integer left = eventService.ticketsLeft(eventName);
+        return ResponseEntity.status(200).body(left);
+    }
+
+    @PutMapping("/postpone/{eventName}")
+    public ResponseEntity postponeEvent(@PathVariable("eventName") String eventName, @Valid @RequestBody TicketDTO dto){
+        eventService.postponeEvent(eventName,dto);
+        return ResponseEntity.status(200).body("Event PostPone");
+    }
 
 
 }
