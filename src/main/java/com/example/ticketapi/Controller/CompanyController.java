@@ -41,7 +41,7 @@ public class CompanyController {
     @DeleteMapping ("/delete/{companyId}/{userId}")
     public ResponseEntity deleteCompany(@PathVariable Integer companyId , @PathVariable Integer userId){
         companyService.deleteCompany(companyId, userId);
-        return ResponseEntity.status(200).body("Company Updated");
+        return ResponseEntity.status(200).body("Company Deleted");
     }
 
     @GetMapping("/events/{companyName}")
@@ -53,6 +53,11 @@ public class CompanyController {
     public ResponseEntity getCompanyNames(@PathVariable Integer adminId){
         List<String> events = companyService.getCompanyNames(adminId);
         return ResponseEntity.status(200).body(events);
+    }
+    @GetMapping("/get-company-by-name/{name}")
+    public ResponseEntity getCompanyNames(@PathVariable String name){
+        Company company =companyService.getCompanyByName(name);
+        return ResponseEntity.status(200).body(company);
     }
 
 

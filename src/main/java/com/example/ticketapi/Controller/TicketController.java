@@ -1,6 +1,7 @@
 package com.example.ticketapi.Controller;
 
 
+import com.example.ticketapi.DTO.TicketDTO;
 import com.example.ticketapi.Model.MyUser;
 import com.example.ticketapi.Service.TicketService;
 import jakarta.validation.Valid;
@@ -8,23 +9,28 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
+
 @RestController
 @RequestMapping("api/v1/ticket")
 @RequiredArgsConstructor
 public class TicketController {
 
     private final TicketService ticketService;
-
-    @PostMapping("/buy/{userId}/{eventName}/{ticketNum}")
-    public ResponseEntity buyTickets(@PathVariable Integer userId, @PathVariable String eventName, @PathVariable Integer ticketNum) {
-        ticketService.buyTickets(userId, eventName, ticketNum);
-        return ResponseEntity.status(200).body("Transaction done");
+/*
+{userId}/{eventName}/{ticketNum}
+@PathVariable Integer userId, @PathVariable String eventName, @PathVariable Integer ticketNum
+ */
+    @PostMapping("/buy")
+    public ResponseEntity buyTickets(@Valid @RequestBody TicketDTO dto) {
+      Double  price = ticketService.buyTickets(dto);
+        return ResponseEntity.status(200).body("Transaction done total price is " + price);
     }
 
-        @DeleteMapping("/delete/{userId}/{eventName}/{ticketNum}")
-    public ResponseEntity cancelTicket(@PathVariable Integer userId, @PathVariable String eventName, @PathVariable Integer ticketNum){
-        ticketService.cancelTicket(userId, eventName, ticketNum);
-        return ResponseEntity.status(200).body("cancelation complete");
+    @DeleteMapping("/delete")
+    public ResponseEntity cancelTicket(@Valid @RequestBody TicketDTO dto){
+       Double refund = ticketService.cancelTicket(dto);
+        return ResponseEntity.status(200).body("cancelation complete you total refund is " + refund);
     }
 
 
@@ -34,6 +40,12 @@ public class TicketController {
         return ResponseEntity.status(200).body("Valid ticket");
 
     }
+
+//    @GetMapping("/get-tickets-date/{userId}")
+//    public ResponseEntity getTicketsByDate(@PathVariable Integer userId, @Valid @RequestBody TicketDTO dto){
+//        return ResponseEntity.status(200).body(ticketService.getTicketByDate(userId, dto.getDate()));
+//
+//    }
 
 
 

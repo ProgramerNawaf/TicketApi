@@ -15,5 +15,6 @@ public interface MyUserRepository extends JpaRepository<MyUser, Integer> {
     MyUser findMyUsersByTicketsContains(Ticket t);
 
     List<MyUser> findMyUsersByRoleContains(String role);
+
     
 }

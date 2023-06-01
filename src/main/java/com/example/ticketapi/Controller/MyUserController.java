@@ -51,8 +51,15 @@ public class MyUserController {
     }
 
     // get MyUser by id
+    @GetMapping("/get-id/{userId}")
+    public ResponseEntity getUserById(@PathVariable Integer userId){
+        return ResponseEntity.status(200).body(myUserService.getUserById(userId));
+    }
     // get user tickets
-
+    @GetMapping("/get-tickets/{userId}")
+    public ResponseEntity getUserTickets(@PathVariable Integer userId){
+        return ResponseEntity.status(200).body(myUserService.getUserTickets(userId));
+    }
 
 }
 

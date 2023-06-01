@@ -1,6 +1,7 @@
 package com.example.ticketapi.Service;
 
 import com.example.ticketapi.ApiException.ApiException;
+import com.example.ticketapi.DTO.TicketDTO;
 import com.example.ticketapi.Model.Company;
 import com.example.ticketapi.Model.Event;
 import com.example.ticketapi.Model.MyUser;
@@ -96,6 +97,35 @@ public class EventService {
             }
             eventRepository.delete(event);
         }
+    }
+
+    //event ticket
+    public Integer ticketsSold(String eventName){
+        Event event = eventRepository.findEventByName(eventName);
+        if(event == null)
+            throw new ApiException("event with this name dosent exist!");
+        List<Ticket> tickets = ticketRepository.findTicketsByEvent(event);
+        return tickets.size();
+    }
+    public Integer ticketsLeft(String eventName){
+        Event event = eventRepository.findEventByName(eventName);
+        if(event == null)
+            throw new ApiException("event with this name dosent exist!");
+        List<Ticket> tickets = ticketRepository.findTicketsByEvent(event);
+        return event.getCapacity()-tickets.size();
+    }
+
+    public void postponeEvent(String eventName, TicketDTO dto){
+        Event event = eventRepository.findEventByName(eventName);
+        if(event == null)
+            throw new ApiException("event with this name dosent exist!");
+        List<Ticket> tickets = ticketRepository.findTicketsByEvent(event);
+        event.setDate(dto.getDate());
+        for (int i = 0; i < tickets.size(); i++) {
+            tickets.get(i).setDate(dto.getDate());
+            ticketRepository.save(tickets.get(i));
+        }
+        eventRepository.save(event);
     }
 
 
