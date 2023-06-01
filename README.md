@@ -3,7 +3,7 @@
 
 # digram for datebease
 
-<img width="338" alt="Screenshot 2023-05-31 at 7 22 01 PM" src="https://github.com/ProgramerNawaf/TicketApi/assets/65816656/aa6366d4-01ed-43e7-85bb-8ecb6fbdc12e">
+![Image 01-06-2023 at 12 05 PM](https://github.com/ProgramerNawaf/TicketApi/assets/65816656/73aee4b2-a359-4036-ab2d-15e804febb26)
 
 
 # Model 
