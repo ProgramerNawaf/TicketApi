@@ -37,7 +37,7 @@
 - getCompanies
 - addCompany
 - updateCompany
-- deleteCompany
+- deleteCompany(deletes company and its events and depending on the date it refunds the customer or not)
 - getCompanyEvents
 - getCompaniesName
 - getCompanyName
@@ -46,7 +46,7 @@
 - getEvents
 - addEvent
 - updateEvent
-- deleteEvent
+- deleteEvent(deletes event and depending on the date it refunds the customer or not)
 - ticketsLeft
 - ticketsSold
 
