@@ -22,7 +22,10 @@
 - getALlMyUsers
 - addMyUser
 - updateMyUser
+- deleteMyUser
 - getByRole
+- getUserById
+- getUserTickets
 
 2.Ticket
 - buyTickets(Mohammed Alajaji)fixed the problem with how to calculate ticket prices and deduct it from customer balance to add it to customer revenue
@@ -36,12 +39,16 @@
 - updateCompany
 - deleteCompany
 - getCompanyEvents
+- getCompaniesName
+- getCompanyName
 
 4-Event(Nawaf Alahmed)
 - getEvents
 - addEvent
 - updateEvent
 - deleteEvent
+- ticketsLeft
+- ticketsSold
 
 
 
