@@ -18,26 +18,26 @@
 - Company - Event
 
 # Endpoint
-1.MyUser
+1.MyUser(Mohammed Abdulhadi)
 - getALlMyUsers
 - addMyUser
 - updateMyUser
 - getByRole
 
 2.Ticket
-- buyTickets
-- checkValidTicket
-- cancelTicket
+- buyTickets(Mohammed Alajaji)fixed the problem with how to calculate ticket prices and deduct it from customer balance to add it to customer revenue
+- checkValidTicket(Mohammed Abdulhadi)fixed the problem with how to map Date to database and how to compare ticket date with current date
+- cancelTicket(Nawaf Alahmed)fixed the problem with how to calculate ticket prices and deduct it from customer balance to add it to customer revenue
 
 
-3.Company
+3.Company(Mohammed Alajaji)
 - getCompanies
 - addCompany
 - updateCompany
 - deleteCompany
 - getCompanyEvents
 
-4-Event
+4-Event(Nawaf Alahmed)
 - getEvents
 - addEvent
 - updateEvent
